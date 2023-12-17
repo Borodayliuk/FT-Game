@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core.Enemy.Scripts;
+using Core.Player.Scripts;
 using UnityEngine;
 
 namespace Core.Track.Scripts
@@ -35,7 +36,7 @@ namespace Core.Track.Scripts
                 for (var i = 0; i < enemiesPerTrackElement; i++)
                 {
                     var randomX = Random.Range(-10f, 10f);
-                    var randomZ = Random.Range(-25f, 25f);
+                    var randomZ = Random.Range(-5f, 40f);
 
                     var randomPosition = trackElement.transform.position + new Vector3(randomX, 1, randomZ);
 
@@ -45,10 +46,10 @@ namespace Core.Track.Scripts
             }
         }
 
-        public void StartGame()
+        public void StartGame(GameObject carController)
         {
             foreach (var enemyController in _enemyControllers)
-                enemyController.StartGame();
+                enemyController.StartGame(carController);
         }
 
         public void StopGame()

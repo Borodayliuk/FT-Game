@@ -47,4 +47,4 @@ MonoBehaviour:
   trackElementPrefab: {fileID: 6562643330958973068, guid: ac1bdf8bbf29b4b0ca1d8854d3c713ac, type: 3}
   enemyPrefab: {fileID: 5579449625397673690, guid: a757c5faeb2ff4b92aeb0d7a516b9e08, type: 3}
   trackSize: 5
-  enemiesPerTrackElement: 8
+  enemiesPerTrackElement: 5

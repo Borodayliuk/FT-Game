@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Core.Enemy.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,11 +12,19 @@ namespace Core.Player.Scripts
         [SerializeField] private TurretController turret;
         [SerializeField] private Slider hpSlider;
         [SerializeField] private GameObject smokeEffect;
+        [SerializeField] private List<TrailRenderer> trailRenderers;
+        [SerializeField] private GameObject laser;
 
         private Vector3 _speed = Vector3.zero;
         private Vector3 _endTrackPosition;
         private float _hp;
         private bool _isGameStarted;
+
+        private void OnEnable()
+        {
+            ClearTrails();
+            hpSlider.interactable = false;
+        }
 
         private void Update()
         {
@@ -38,6 +47,9 @@ namespace Core.Player.Scripts
         {
             _isGameStarted = false;
             _hp = MaxHp;
+
+            laser.SetActive(false);
+            ClearTrails();
             hpSlider.gameObject.SetActive(false);
             hpSlider.value = 1;
             smokeEffect.SetActive(false);
@@ -51,6 +63,7 @@ namespace Core.Player.Scripts
             _isGameStarted = true;
             hpSlider.gameObject.SetActive(true);
             smokeEffect.SetActive(true);
+            laser.SetActive(true);
         }
 
         public void Shot()
@@ -88,6 +101,12 @@ namespace Core.Player.Scripts
 
             if (transform.position.z >= _endTrackPosition.z)
                 GlobalGameEvents.LevelCompleted?.Invoke();
+        }
+
+        private void ClearTrails()
+        {
+            foreach (var trailRenderer in trailRenderers)
+                trailRenderer.Clear();
         }
     }
 }

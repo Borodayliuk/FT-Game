@@ -6,7 +6,7 @@ namespace Core.Player.Scripts
 {
     public class TurretController : MonoBehaviour
     {
-        private const int BulletLifeTimeDelay = 500;
+        private const int BulletLifeTimeDelay = 700;
 
         [SerializeField] private BulletsPool bulletsPool;
         [SerializeField] private Transform bulletSpawnPoint;
@@ -34,15 +34,12 @@ namespace Core.Player.Scripts
 
         private async UniTask DeactivationBullet(GameObject bullet)
         {
-            var bulletController = bullet.GetComponent<BulletController>();
+            await UniTask.WhenAny(UniTask.Delay(BulletLifeTimeDelay), UniTask.WaitUntil(() => bullet == null || !bullet.activeSelf));
 
-            await UniTask.WhenAny(UniTask.Delay(BulletLifeTimeDelay), UniTask.WaitUntil(() => !bullet.activeSelf));
-
-            if (!bullet.activeSelf)
+            if (bullet == null || !bullet.activeSelf)
                 return;
 
             bullet.SetActive(false);
-            bulletController.SetStartParameters();
         }
     }
 }

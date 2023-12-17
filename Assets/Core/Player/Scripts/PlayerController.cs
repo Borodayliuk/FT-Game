@@ -4,7 +4,7 @@ namespace Core.Player.Scripts
 {
     public class PlayerController : MonoBehaviour
     {
-        private const float DelayBetweenShots = 0.35f;
+        private const float DelayBetweenShots = 0.30f;
 
         [SerializeField] private float carSpeed;
         [SerializeField] private float sensibility;

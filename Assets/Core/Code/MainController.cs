@@ -61,24 +61,23 @@ namespace Core.Code
 
         private void OnGameFailed()
         {
-            Debug.LogError("Failed");
             _trackController.StopGame();
-
             _playerController.StopMove();
             _playerController.GameFailed();
 
             uiController.DeactivateAll();
             uiController.SetActiveRestart(true);
-            uiController.SetActiveLevelCompleted(true);
+            uiController.SetActiveLevelFailed(true);
         }
 
         private void OnLevelCompleted()
         {
+            _trackController.StopGame();
             _playerController.StopMove();
 
             uiController.DeactivateAll();
             uiController.SetActiveRestart(true);
-            uiController.SetActiveLevelFailed(true);
+            uiController.SetActiveLevelCompleted(true);
         }
 
         private void InitInternal()
@@ -87,7 +86,11 @@ namespace Core.Code
             cameraController.Init(_playerController.CarTransform);
             uiController.DeactivateAll();
             uiController.SetActiveStart(true);
-            uiController.InitMapSlider(_playerController.CarTransform.position, _trackController.EndTrackPoint, _playerController.CarTransform);
+            uiController.InitMapSlider(
+                _playerController.CarTransform.position,
+                _trackController.EndTrackPoint,
+                _playerController.CarTransform);
+
             _trackController.GenerateEnemy();
         }
 
@@ -96,7 +99,7 @@ namespace Core.Code
             await cameraController.StartGameCameraPositionAnimation();
 
             _playerController.StartGame();
-            _trackController.StartGame();
+            _trackController.StartGame(_playerController.CarTransform.gameObject);
             uiController.SetActiveMapSlider(true);
         }
 

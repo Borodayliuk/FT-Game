@@ -10,8 +10,10 @@ namespace Core.Enemy.Scripts
         private const float MaxHP = 30;
         private const float Speed = 0.02f;
         private const float InteractionDistance = 70;
+        private const string AnimationTriggerName = "StartAnimation";
 
         [SerializeField] private Slider hpSlider;
+        [SerializeField] private Animator animator;
 
         private GameObject _carGameObject;
         private bool _isGameStarted;
@@ -26,14 +28,13 @@ namespace Core.Enemy.Scripts
 
             Damage(bulletController.DamageValue);
             bulletController.gameObject.SetActive(false);
-            bulletController.SetStartParameters();
         }
 
-        public void StartGame()
+        public void StartGame(GameObject carGameObject)
         {
             _hp = MaxHP;
             _isGameStarted = true;
-            _carGameObject = FindObjectOfType<CarController>().gameObject;
+            _carGameObject = carGameObject;
         }
 
         public void StopGame()
@@ -54,6 +55,7 @@ namespace Core.Enemy.Scripts
             if (distance > InteractionDistance)
                 return;
 
+            animator.SetTrigger(AnimationTriggerName);
             transform.LookAt(_carGameObject.transform);
             transform.position += transform.forward * Speed;
         }
@@ -66,8 +68,8 @@ namespace Core.Enemy.Scripts
                 return;
             }
 
-            var p = damageValue / MaxHP;
-            hpSlider.value -= p;
+            var sliderValueLeft = damageValue / MaxHP;
+            hpSlider.value -= sliderValueLeft;
             _hp -= damageValue;
         }
 

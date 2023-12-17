@@ -62,6 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpSlider: {fileID: 5750944350292567784}
+  animator: {fileID: 691919012395743631}
 --- !u!54 &-5649618716118852403
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -736,7 +737,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1167834586364842969, guid: c4f5cc945b49f4b33a07ca0a40aab146, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 22.3
+      value: 32.6
       objectReference: {fileID: 0}
     - target: {fileID: 1167834586364842969, guid: c4f5cc945b49f4b33a07ca0a40aab146, type: 3}
       propertyPath: m_LocalScale.x

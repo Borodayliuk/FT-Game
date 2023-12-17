@@ -1,5 +1,5 @@
-using Core.Bullet;
-using Core.Car.Scripts;
+using Core.Player.Scripts;
+using Core.Player.Scripts.Bullet;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +16,8 @@ namespace Core.Enemy.Scripts
         private GameObject _carGameObject;
         private bool _isGameStarted;
         private float _hp;
+
+        public float DamageValue => 0.5f;
 
         private void OnCollisionEnter(Collision collision)
         {

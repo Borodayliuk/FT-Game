@@ -15,6 +15,8 @@ namespace Core.Track.Scripts
         private readonly List<GameObject> _trackElements = new();
         private readonly List<EnemyController> _enemyControllers = new();
 
+        public Vector3 EndTrackPoint => _trackElements.Last().transform.position;
+
         public void GenerateTrack()
         {
             for (var i = 0; i < trackSize; i++)
@@ -53,7 +55,7 @@ namespace Core.Track.Scripts
         {
             foreach (var enemyController in _enemyControllers.Where(enemyController => enemyController != null))
             {
-                enemyController.StartGame();
+                enemyController.StopGame();
                 Destroy(enemyController.gameObject);
             }
         }

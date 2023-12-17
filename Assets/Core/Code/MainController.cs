@@ -1,7 +1,8 @@
 using System;
-using Core.Car.Scripts;
 using Core.Code.Camera;
+using Core.Player.Scripts;
 using Core.Track.Scripts;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Core.Code
@@ -12,7 +13,7 @@ namespace Core.Code
         [SerializeField] private GameObject trackControllerPrefab;
         [SerializeField] private GameObject playerControllerPrefab;
         [SerializeField] private CameraController cameraController;
-        
+
         private TrackController _trackController;
         private PlayerController _playerController;
 
@@ -26,7 +27,7 @@ namespace Core.Code
         {
             GlobalGameEvents.StartGame += OnStartGame;
             GlobalGameEvents.RestartGame += OnRestartGame;
-            GlobalGameEvents.GameLoss += OnGameLoss;
+            GlobalGameEvents.GameFailed += OnGameFailed;
             GlobalGameEvents.LevelCompleted += OnLevelCompleted;
         }
 
@@ -34,7 +35,7 @@ namespace Core.Code
         {
             GlobalGameEvents.StartGame -= OnStartGame;
             GlobalGameEvents.RestartGame -= OnRestartGame;
-            GlobalGameEvents.GameLoss -= OnGameLoss;
+            GlobalGameEvents.GameFailed -= OnGameFailed;
             GlobalGameEvents.LevelCompleted -= OnLevelCompleted;
         }
 
@@ -44,7 +45,7 @@ namespace Core.Code
             _trackController.GenerateTrack();
             _playerController = Instantiate(playerControllerPrefab).GetComponent<PlayerController>();
 
-            _playerController.Init();
+            _playerController.Init(_trackController.EndTrackPoint);
             InitInternal();
         }
 
@@ -52,20 +53,23 @@ namespace Core.Code
         {
             uiController.DeactivateAll();
 
-            StartGame();
+            StartGame().Forget();
         }
 
         private void OnRestartGame()
             => InitInternal();
 
-        private void OnGameLoss()
+        private void OnGameFailed()
         {
+            Debug.LogError("Failed");
+            _trackController.StopGame();
+
             _playerController.StopMove();
+            _playerController.GameFailed();
 
             uiController.DeactivateAll();
             uiController.SetActiveRestart(true);
             uiController.SetActiveLevelCompleted(true);
-            _trackController.StopGame();
         }
 
         private void OnLevelCompleted()
@@ -83,14 +87,17 @@ namespace Core.Code
             cameraController.Init(_playerController.CarTransform);
             uiController.DeactivateAll();
             uiController.SetActiveStart(true);
+            uiController.InitMapSlider(_playerController.CarTransform.position, _trackController.EndTrackPoint, _playerController.CarTransform);
             _trackController.GenerateEnemy();
         }
 
-        private async void StartGame()
+        private async UniTask StartGame()
         {
             await cameraController.StartGameCameraPositionAnimation();
+
             _playerController.StartGame();
             _trackController.StartGame();
+            uiController.SetActiveMapSlider(true);
         }
 
         public void Dispose()

@@ -24,8 +24,13 @@ namespace Core.Car.Scripts
 
         public GameObject GetBullet()
         {
-            foreach (var bullet in _bullets.Where(bullet => !bullet.activeSelf))
-                return bullet;
+            foreach (var bullet in _bullets)
+            {
+                if (!bullet.activeInHierarchy)
+                {
+                    return bullet;
+                }
+            }
 
             var newBullet = Instantiate(bulletPrefab);
             newBullet.SetActive(false);

@@ -6,7 +6,7 @@ namespace Core.Car.Scripts
 {
     public class TurretController : MonoBehaviour
     {
-        private const int BulletLifeTimeDelay = 1000;
+        private const int BulletLifeTimeDelay = 1500;
 
         [SerializeField] private BulletsPool bulletsPool;
         [SerializeField] private Transform bulletSpawnPoint;
@@ -37,8 +37,8 @@ namespace Core.Car.Scripts
             var bulletController = bullet.GetComponent<BulletController>();
 
             await UniTask.Delay(BulletLifeTimeDelay);
-            bulletController.SetStartParameters();
             bullet.SetActive(false);
+            bulletController.SetStartParameters();
         }
     }
 }

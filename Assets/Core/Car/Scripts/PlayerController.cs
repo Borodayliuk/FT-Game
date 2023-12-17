@@ -4,13 +4,13 @@ namespace Core.Car.Scripts
 {
     public class PlayerController : MonoBehaviour
     {
-        private const float DelayBetweenShots = 0.1f;
-        private const float CarSpeed = 0.05f;
-        private const float Sensibility = 0.5f;
+        private const float DelayBetweenShots = 0.15f;
 
+        [SerializeField] private float carSpeed;
+        [SerializeField] private float sensibility;
         [SerializeField] private GameObject carPrefab;
 
-        private readonly Vector3 _startCarPosition = new Vector3(0, 0, -45);
+        private readonly Vector3 _startCarPosition = new(0, 0, -45);
 
         private CarController _carController;
         private Vector2 _lastTapPosition;
@@ -36,10 +36,11 @@ namespace Core.Car.Scripts
         public void ReInit()
             => InitInternal();
 
-        public void StartMove()
+        public void StartGame()
         {
             _carIsMoved = true;
-            _carController.SetSpeed(CarSpeed);
+            _carController.StartGame();
+            _carController.SetSpeed(carSpeed);
         }
 
         public void StopMove()
@@ -52,6 +53,7 @@ namespace Core.Car.Scripts
         {
             StopMove();
             _carController.transform.position = _startCarPosition;
+            _carController.Init();
         }
 
         private void TurretControlling()
@@ -66,7 +68,7 @@ namespace Core.Car.Scripts
 
                 var delta = _lastTapPosition.x - mousePosition.x;
                 _lastTapPosition = mousePosition;
-                _carController.ChangeTurretRotate(delta * Sensibility);
+                _carController.ChangeTurretRotate(delta * sensibility);
             }
             if (Input.GetMouseButtonUp(0))
                 _lastTapPosition = Vector2.zero;

@@ -8,6 +8,8 @@ namespace Core.Bullet
 
         private Vector3 _moveVector;
 
+        public float DamageValue => 10;
+
         private void OnEnable()
         {
             _moveVector = -transform.up * speed;
@@ -20,9 +22,7 @@ namespace Core.Bullet
 
         public void SetStartParameters()
         { 
-            _moveVector = Vector3.zero;
-            transform.position = Vector3.zero;
-            transform.rotation = Quaternion.identity;
+            //_moveVector = Vector3.zero;
         }
     }
 }

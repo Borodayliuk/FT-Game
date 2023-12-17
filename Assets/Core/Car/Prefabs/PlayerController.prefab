@@ -44,4 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50268312d62f4f938f60831d58e31e25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carSpeed: 0.018
+  sensibility: 0.3
   carPrefab: {fileID: 2032441006677993823, guid: deca269fa776f41b7a8b645053c7d24e, type: 3}

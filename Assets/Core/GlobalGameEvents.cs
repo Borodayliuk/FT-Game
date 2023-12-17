@@ -1,7 +1,12 @@
-
 using System;
 
-public static class GlobalGameEvents
+namespace Core
 {
-    public static Action GameInitialized;
+    public static class GlobalGameEvents
+    {
+        public static Action GameLoss;
+        public static Action LevelCompleted;
+        public static Action RestartGame;
+        public static Action StartGame;
+    }
 }

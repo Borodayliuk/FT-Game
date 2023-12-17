@@ -1,5 +1,6 @@
 using System;
 using Core.Car.Scripts;
+using Core.Code.Camera;
 using Core.Track.Scripts;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace Core.Code
     {
         [SerializeField] private GameObject trackControllerPrefab;
         [SerializeField] private GameObject playerControllerPrefab;
+        [SerializeField] private CameraController cameraController;
         
         private TrackController _trackController;
         private PlayerController _playerController;
@@ -20,6 +22,7 @@ namespace Core.Code
 
             _playerController = Instantiate(playerControllerPrefab).GetComponent<PlayerController>();
             _playerController.Init();
+            cameraController.Init(_playerController.CarTransform);
         }
 
         private void Update()
@@ -30,8 +33,9 @@ namespace Core.Code
             }
         }
 
-        private void StartGame()
+        private async void StartGame()
         {
+            await cameraController.StartGameCameraPositionAnimation();
             _playerController.StartMove();
         }
     }

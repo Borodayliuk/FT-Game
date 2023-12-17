@@ -17,6 +17,8 @@ namespace Core.Car.Scripts
         private bool _carIsMoved;
         private float _timeAfterShot;
 
+        public Transform CarTransform => _carController.transform;
+
         private void Update()
         {
             if (!_carIsMoved)
@@ -37,7 +39,7 @@ namespace Core.Car.Scripts
         public void StartMove()
         {
             _carIsMoved = true;
-            _carController.SetSpeed(0);
+            _carController.SetSpeed(CarSpeed);
         }
 
         public void StopMove()

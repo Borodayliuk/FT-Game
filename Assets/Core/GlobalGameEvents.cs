@@ -1,18 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
-public class GlobalGameEvents : MonoBehaviour
+namespace Core
 {
-    // Start is called before the first frame update
-    void Start()
+    public static class GlobalGameEvents
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public static Action GameFailed;
+        public static Action LevelCompleted;
+        public static Action RestartGame;
+        public static Action StartGame;
     }
 }

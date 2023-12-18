@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core.Enemy.Scripts;
-using Core.Player.Scripts;
 using UnityEngine;
 
 namespace Core.Track.Scripts
@@ -15,6 +14,8 @@ namespace Core.Track.Scripts
 
         private readonly List<GameObject> _trackElements = new();
         private readonly List<EnemyController> _enemyControllers = new();
+        private readonly Vector2 _randomXRange = new(-10f, 10f);
+        private readonly Vector2 _randomZRange = new(-5f, 40f);
 
         public Vector3 EndTrackPoint => _trackElements.Last().transform.position;
 
@@ -23,7 +24,7 @@ namespace Core.Track.Scripts
             for (var i = 0; i < trackSize; i++)
             {
                 var trackElement = Instantiate(trackElementPrefab, transform);
-                var offsetZ = i * trackElement.GetComponent<TrackElement>().GetSizeZ();
+                var offsetZ = i * trackElement.GetComponent<TrackElement>().SizeZ;
                 trackElement.transform.position = new Vector3(0f, 0f, offsetZ);
                 _trackElements.Add(trackElement);
             }
@@ -35,9 +36,8 @@ namespace Core.Track.Scripts
             {
                 for (var i = 0; i < enemiesPerTrackElement; i++)
                 {
-                    var randomX = Random.Range(-10f, 10f);
-                    var randomZ = Random.Range(-5f, 40f);
-
+                    var randomX = Random.Range(_randomXRange.x, _randomXRange.y);
+                    var randomZ = Random.Range(_randomZRange.x, _randomZRange.y);
                     var randomPosition = trackElement.transform.position + new Vector3(randomX, 1, randomZ);
 
                     var enemy = Instantiate(enemyPrefab, randomPosition, Quaternion.identity);

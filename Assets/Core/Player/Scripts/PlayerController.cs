@@ -18,6 +18,7 @@ namespace Core.Player.Scripts
         private Vector2 _lastTapPosition;
         private bool _carIsMoved;
         private float _timeAfterShot;
+
         public Transform CarTransform => _carController.transform;
 
         private void Update()
@@ -26,6 +27,7 @@ namespace Core.Player.Scripts
                 return;
 
             TurretControlling();
+            ShotsControlling();
         }
 
         public void Init(Vector3 endTrackPosition)
@@ -70,8 +72,6 @@ namespace Core.Player.Scripts
 
         private void TurretControlling()
         {
-            _timeAfterShot += Time.deltaTime;
-
             if (Input.GetMouseButton(0))
             {
                 var mousePosition = Input.mousePosition; 
@@ -82,14 +82,20 @@ namespace Core.Player.Scripts
                 _lastTapPosition = mousePosition;
                 _carController.ChangeTurretRotate(delta * sensibility);
             }
+
             if (Input.GetMouseButtonUp(0))
                 _lastTapPosition = Vector2.zero;
+        }
 
-            if (_timeAfterShot >= DelayBetweenShots)
-            {
-                _timeAfterShot = 0;
-                _carController.Shot();
-            }
+        private void ShotsControlling()
+        {
+            _timeAfterShot += Time.deltaTime;
+
+            if (_timeAfterShot < DelayBetweenShots)
+                return;
+
+            _timeAfterShot = 0;
+            _carController.Shot();
         }
     }
 }

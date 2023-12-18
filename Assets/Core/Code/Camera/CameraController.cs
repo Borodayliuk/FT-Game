@@ -6,10 +6,10 @@ namespace Core.Code.Camera
 {
     public class CameraController : MonoBehaviour
     {
-        private readonly Vector3 _startPosition = new Vector3(-7.97f, 11.98f, -54.89f);
-        private readonly Vector3 _endPosition = new Vector3(0, 18.8f, -57.5f);
-        private readonly Vector3 _startRotation = new Vector3(56.3f, 40.34f, 5.7f);
-        private readonly Vector3 _endRotation = new Vector3(44.6f, 0, 0);
+        private readonly Vector3 _startPosition = new(-7.97f, 11.98f, -54.89f);
+        private readonly Vector3 _endPosition = new(0, 18.8f, -57.5f);
+        private readonly Vector3 _startRotation = new(56.3f, 40.34f, 5.7f);
+        private readonly Vector3 _endRotation = new(44.6f, 0, 0);
 
         private bool _isGameStarted;
         private Vector3 _startOffset;
@@ -38,8 +38,8 @@ namespace Core.Code.Camera
             if (!_isGameStarted)
                 return;
 
-            transform.position =
-                new Vector3(_targetTransform.position.x - _startOffset.x, transform.position.y, _targetTransform.position.z - _startOffset.z);
+            var targetPosition = _targetTransform.position;
+            transform.position = new Vector3(targetPosition.x - _startOffset.x, transform.position.y, targetPosition.z - _startOffset.z);
         }
     }
 }

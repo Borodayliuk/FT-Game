@@ -1,4 +1,3 @@
-using Core.Player.Scripts;
 using Core.Player.Scripts.Bullet;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +18,7 @@ namespace Core.Enemy.Scripts
         private bool _isGameStarted;
         private float _hp;
 
-        public float DamageValue => 0.5f;
+        public float DamageValue => 1.5f;
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -39,6 +38,19 @@ namespace Core.Enemy.Scripts
 
         public void StopGame()
             => _isGameStarted = false;
+
+        public void Damage(float damageValue)
+        {
+            if (_hp - damageValue <= 0)
+            {
+                DestroyEnemy();
+                return;
+            }
+
+            var sliderValueLeft = damageValue / MaxHP;
+            hpSlider.value -= sliderValueLeft;
+            _hp -= damageValue;
+        }
 
         private void Update()
         {
@@ -60,20 +72,7 @@ namespace Core.Enemy.Scripts
             transform.position += transform.forward * Speed;
         }
 
-        private void Damage(float damageValue)
-        {
-            if (_hp - damageValue <= 0)
-            {
-                GameFailed();
-                return;
-            }
-
-            var sliderValueLeft = damageValue / MaxHP;
-            hpSlider.value -= sliderValueLeft;
-            _hp -= damageValue;
-        }
-
-        private void GameFailed()
+        private void DestroyEnemy()
         {
             hpSlider.value = 0;
             Destroy(gameObject);

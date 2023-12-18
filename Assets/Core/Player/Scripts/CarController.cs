@@ -7,7 +7,8 @@ namespace Core.Player.Scripts
 {
     public class CarController : MonoBehaviour
     {
-        private const float MaxHp = 350;
+        private const float MaxHP = 280;
+        private const float DamageValue = 3;
 
         [SerializeField] private TurretController turret;
         [SerializeField] private Slider hpSlider;
@@ -39,14 +40,17 @@ namespace Core.Player.Scripts
             if (!_isGameStarted)
                 return;
 
-            if (collision.gameObject.TryGetComponent<EnemyController>(out var enemyController))
-                Damage(enemyController.DamageValue);
+            if (!collision.gameObject.TryGetComponent<EnemyController>(out var enemyController))
+                return;
+
+            Damage(enemyController.DamageValue);
+            enemyController.Damage(DamageValue);
         }
 
         public void Init()
         {
             _isGameStarted = false;
-            _hp = MaxHp;
+            _hp = MaxHP;
 
             laser.SetActive(false);
             ClearTrails();
@@ -83,7 +87,7 @@ namespace Core.Player.Scripts
                 return;
             }
 
-            var p = damageValue / MaxHp;
+            var p = damageValue / MaxHP;
             hpSlider.value -= p;
             _hp -= damageValue;
         }

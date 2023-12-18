@@ -6,7 +6,6 @@ namespace Core.Track.Scripts
     {
         [SerializeField] private MeshRenderer renderer;
 
-        public float GetSizeZ()
-            => renderer.bounds.size.z;
+        public float SizeZ => renderer.bounds.size.z;
     }
 }

@@ -25,6 +25,7 @@ namespace Core.Player.Scripts
         public void Shot()
         {
             var bullet = _bulletsPoolInstance.GetBullet();
+
             bullet.transform.position = bulletSpawnPoint.position;
             bullet.transform.rotation = bulletSpawnPoint.rotation;
             bullet.SetActive(true);
@@ -34,7 +35,9 @@ namespace Core.Player.Scripts
 
         private async UniTask DeactivationBullet(GameObject bullet)
         {
-            await UniTask.WhenAny(UniTask.Delay(BulletLifeTimeDelay), UniTask.WaitUntil(() => bullet == null || !bullet.activeSelf));
+            await UniTask.WhenAny(
+                UniTask.Delay(BulletLifeTimeDelay),
+                UniTask.WaitUntil(() => bullet == null || !bullet.activeSelf));
 
             if (bullet == null || !bullet.activeSelf)
                 return;
